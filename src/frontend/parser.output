@@ -1,0 +1,5158 @@
+Grammar
+
+    0 $accept: COMPROOT $end
+
+    1 COMPROOT: COMPROOT COMPUNIT
+    2         | COMPUNIT
+
+    3 COMPUNIT: DECL
+    4         | FUNCDEF
+
+    5 DECL: CONSTDECL
+    6     | VARDECL
+
+    7 CONSTDECL: CONST BTYPE CONSTDEFLIST ';'
+
+    8 CONSTDEFLIST: CONSTDEF
+    9             | CONSTDEFLIST ',' CONSTDEF
+
+   10 BTYPE: INTT
+   11      | FLOATT
+   12      | VOIDT
+
+   13 CONSTDEF: IDEXP ARRAYINDEXLIST '=' INITVAL
+
+   14 VARDECL: BTYPE VARDEFLIST ';'
+
+   15 VARDEFLIST: VARDEF
+   16           | VARDEFLIST ',' VARDEF
+
+   17 VARDEF: IDEXP ARRAYINDEXLIST
+   18       | IDEXP ARRAYINDEXLIST '=' INITVAL
+
+   19 ARRAYINDEXLIST: ε
+   20               | ARRAYINDEXLIST '[' EXP ']'
+
+   21 INITVAL: EXP
+   22        | ARRAYINITIALVALS
+
+   23 ARRAYINITIALVALS: '{' INITVALLIST '}'
+
+   24 INITVALLIST: ε
+   25            | INITVAL
+   26            | INITVALLIST ',' INITVAL
+
+   27 FUNCDEF: BTYPE IDEXP '(' PARAMETERS ')' BLOCK
+
+   28 PARAMETERS: ε
+   29           | PARAMETER
+   30           | PARAMETERS ',' PARAMETER
+
+   31 PARAMETER: BTYPE IDEXP
+   32          | BTYPE IDEXP '[' ']' ARRAYINDEXLIST
+
+   33 BLOCK: '{' BLOCKITEMLIST '}'
+
+   34 BLOCKITEMLIST: ε
+   35              | BLOCKITEMLIST BLOCKITEM
+
+   36 BLOCKITEM: DECL
+   37          | STMT
+
+   38 STMT: ASSIGNSTMT ';'
+   39     | ';'
+   40     | EXPSTMT ';'
+   41     | BLOCK
+   42     | IFSTMT
+   43     | WHILESTMT
+   44     | BREAKSTMT ';'
+   45     | CONTINUESTMT ';'
+   46     | RETURNSTMT ';'
+   47     | PUTINTSTMT ';'
+   48     | PUTCHSTMT ';'
+   49     | PUTARRAYSTMT ';'
+   50     | PUTFLOATSTMT ';'
+   51     | PUTFARRAYSTMT ';'
+   52     | PUTFSTMT ';'
+   53     | STARTTIMESTMT ';'
+   54     | STOPTIMESTMT ';'
+
+   55 ASSIGNSTMT: LVAL '=' EXP
+
+   56 EXPSTMT: EXP
+
+   57 IFSTMT: IF '(' EXP ')' STMT
+   58       | IF '(' EXP ')' STMT ELSE STMT
+
+   59 WHILESTMT: WHILE '(' EXP ')' STMT
+
+   60 BREAKSTMT: BREAK
+
+   61 CONTINUESTMT: CONTINUE
+
+   62 RETURNSTMT: RETURN
+   63           | RETURN EXP
+
+   64 PUTINTSTMT: PUTINT '(' EXP ')'
+
+   65 PUTCHSTMT: PUTCH '(' EXP ')'
+
+   66 PUTFLOATSTMT: PUTFLOAT '(' EXP ')'
+
+   67 PUTARRAYSTMT: PUTARRAY '(' EXP ',' EXP ')'
+
+   68 PUTFARRAYSTMT: PUTFARRAY '(' EXP ',' EXP ')'
+
+   69 PUTFSTMT: PUTF '(' EXPLIST ')'
+
+   70 STARTTIMESTMT: STARTTIME
+
+   71 STOPTIMESTMT: STOPTIME
+
+   72 EXP: PRIMARYEXP
+   73    | UNARYEXP
+   74    | MULEXP
+   75    | ADDEXP
+   76    | RELEXP
+   77    | EQEXP
+   78    | LANDEXP
+   79    | LOREXP
+   80    | CALLEXP
+   81    | GETINTEXP
+   82    | GETCHEXP
+   83    | GETFLOATEXP
+   84    | GETARRAYEXP
+   85    | GETFARRAYEXP
+
+   86 IDEXP: ID
+
+   87 LVAL: IDEXP ARRAYINDEXLIST
+
+   88 PRIMARYEXP: '(' EXP ')'
+   89           | LVAL
+   90           | NUMBER
+
+   91 NUMBER: INTNUMBER
+   92       | FLOATNUMBER
+
+   93 UNARYEXP: UNARYOP EXP
+
+   94 CALLEXP: IDEXP '(' EXPLIST ')'
+
+   95 UNARYOP: ADDOP
+   96        | SUBOP
+   97        | NOTOP
+
+   98 EXPLIST: ε
+   99        | EXP
+  100        | EXPLIST ',' EXP
+
+  101 MULEXP: EXP MULOP EXP
+
+  102 ADDEXP: EXP ADDOP EXP
+  103       | EXP SUBOP EXP
+
+  104 RELEXP: EXP RELOP EXP
+
+  105 EQEXP: EXP EQUALOP EXP
+
+  106 LANDEXP: EXP LANDOP EXP
+
+  107 LOREXP: EXP LOROP EXP
+
+  108 GETINTEXP: GETINT '(' ')'
+
+  109 GETCHEXP: GETCH '(' ')'
+
+  110 GETFLOATEXP: GETFLOAT '(' ')'
+
+  111 GETARRAYEXP: GETARRAY '(' EXP ')'
+
+  112 GETFARRAYEXP: GETFARRAY '(' EXP ')'
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '(' (40) 27 57 58 59 64 65 66 67 68 69 88 94 108 109 110 111 112
+    ')' (41) 27 57 58 59 64 65 66 67 68 69 88 94 108 109 110 111 112
+    ',' (44) 9 16 26 30 67 68 100
+    ';' (59) 7 14 38 39 40 44 45 46 47 48 49 50 51 52 53 54
+    '=' (61) 13 18 55
+    '[' (91) 20 32
+    ']' (93) 20 32
+    '{' (123) 23 33
+    '}' (125) 23 33
+    error (256)
+    RETURN <token> (258) 62 63
+    IF <token> (259) 57 58
+    ELSE <token> (260) 58
+    WHILE <token> (261) 59
+    BREAK <token> (262) 60
+    CONTINUE <token> (263) 61
+    VOIDT <token> (264) 12
+    INTT <token> (265) 10
+    FLOATT <token> (266) 11
+    CONST <token> (267) 7
+    INTNUMBER <token> (268) 91
+    GETINT <token> (269) 108
+    GETCH <token> (270) 109
+    GETFLOAT <token> (271) 110
+    GETARRAY <token> (272) 111
+    GETFARRAY <token> (273) 112
+    PUTINT <token> (274) 64
+    PUTCH <token> (275) 65
+    PUTARRAY <token> (276) 67
+    PUTFLOAT <token> (277) 66
+    PUTFARRAY <token> (278) 68
+    PUTF <token> (279) 69
+    STARTTIME <token> (280) 70
+    STOPTIME <token> (281) 71
+    FLOATNUMBER <floatnumber> (282) 92
+    ADDOP <token> (283) 95 102
+    SUBOP <token> (284) 96 103
+    NOTOP <token> (285) 97
+    LANDOP <token> (286) 106
+    LOROP <token> (287) 107
+    MULOP <mul> (288) 101
+    EQUALOP <equal> (289) 105
+    RELOP <rel> (290) 104
+    ID <id> (291) 86
+    prec1 (292)
+    prec2 (293)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (48)
+        on left: 0
+    COMPROOT <root> (49)
+        on left: 1 2
+        on right: 0 1
+    COMPUNIT <compunit> (50)
+        on left: 3 4
+        on right: 1 2
+    DECL <decl> (51)
+        on left: 5 6
+        on right: 3 36
+    CONSTDECL <constdecl> (52)
+        on left: 7
+        on right: 5
+    CONSTDEFLIST <constdeflist> (53)
+        on left: 8 9
+        on right: 7 9
+    BTYPE <btype> (54)
+        on left: 10 11 12
+        on right: 7 14 27 31 32
+    CONSTDEF <constdef> (55)
+        on left: 13
+        on right: 8 9
+    VARDECL <vardecl> (56)
+        on left: 14
+        on right: 6
+    VARDEFLIST <vardeflist> (57)
+        on left: 15 16
+        on right: 14 16
+    VARDEF <vardef> (58)
+        on left: 17 18
+        on right: 15 16
+    ARRAYINDEXLIST <arrayindexlist> (59)
+        on left: 19 20
+        on right: 13 17 18 20 32 87
+    INITVAL <initval> (60)
+        on left: 21 22
+        on right: 13 18 25 26
+    ARRAYINITIALVALS <arrayinitialvals> (61)
+        on left: 23
+        on right: 22
+    INITVALLIST <initvallist> (62)
+        on left: 24 25 26
+        on right: 23 26
+    FUNCDEF <funcdef> (63)
+        on left: 27
+        on right: 4
+    PARAMETERS <parameters> (64)
+        on left: 28 29 30
+        on right: 27 30
+    PARAMETER <parameter> (65)
+        on left: 31 32
+        on right: 29 30
+    BLOCK <block> (66)
+        on left: 33
+        on right: 27 41
+    BLOCKITEMLIST <blockitemlist> (67)
+        on left: 34 35
+        on right: 33 35
+    BLOCKITEM <blockitem> (68)
+        on left: 36 37
+        on right: 35
+    STMT <stmt> (69)
+        on left: 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54
+        on right: 37 57 58 59
+    ASSIGNSTMT <stmt> (70)
+        on left: 55
+        on right: 38
+    EXPSTMT <stmt> (71)
+        on left: 56
+        on right: 40
+    IFSTMT <stmt> (72)
+        on left: 57 58
+        on right: 42
+    WHILESTMT <stmt> (73)
+        on left: 59
+        on right: 43
+    BREAKSTMT <stmt> (74)
+        on left: 60
+        on right: 44
+    CONTINUESTMT <stmt> (75)
+        on left: 61
+        on right: 45
+    RETURNSTMT <stmt> (76)
+        on left: 62 63
+        on right: 46
+    PUTINTSTMT <stmt> (77)
+        on left: 64
+        on right: 47
+    PUTCHSTMT <stmt> (78)
+        on left: 65
+        on right: 48
+    PUTFLOATSTMT <stmt> (79)
+        on left: 66
+        on right: 50
+    PUTARRAYSTMT <stmt> (80)
+        on left: 67
+        on right: 49
+    PUTFARRAYSTMT <stmt> (81)
+        on left: 68
+        on right: 51
+    PUTFSTMT <stmt> (82)
+        on left: 69
+        on right: 52
+    STARTTIMESTMT <stmt> (83)
+        on left: 70
+        on right: 53
+    STOPTIMESTMT <stmt> (84)
+        on left: 71
+        on right: 54
+    EXP <exp> (85)
+        on left: 72 73 74 75 76 77 78 79 80 81 82 83 84 85
+        on right: 20 21 55 56 57 58 59 63 64 65 66 67 68 88 93 99 100 101 102 103 104 105 106 107 111 112
+    IDEXP <idexp> (86)
+        on left: 86
+        on right: 13 17 18 27 31 32 87 94
+    LVAL <lval> (87)
+        on left: 87
+        on right: 55 89
+    PRIMARYEXP <exp> (88)
+        on left: 88 89 90
+        on right: 72
+    NUMBER <number> (89)
+        on left: 91 92
+        on right: 90
+    UNARYEXP <exp> (90)
+        on left: 93
+        on right: 73
+    CALLEXP <exp> (91)
+        on left: 94
+        on right: 80
+    UNARYOP <unaryop> (92)
+        on left: 95 96 97
+        on right: 93
+    EXPLIST <explist> (93)
+        on left: 98 99 100
+        on right: 69 94 100
+    MULEXP <exp> (94)
+        on left: 101
+        on right: 74
+    ADDEXP <exp> (95)
+        on left: 102 103
+        on right: 75
+    RELEXP <exp> (96)
+        on left: 104
+        on right: 76
+    EQEXP <exp> (97)
+        on left: 105
+        on right: 77
+    LANDEXP <exp> (98)
+        on left: 106
+        on right: 78
+    LOREXP <exp> (99)
+        on left: 107
+        on right: 79
+    GETINTEXP <exp> (100)
+        on left: 108
+        on right: 81
+    GETCHEXP <exp> (101)
+        on left: 109
+        on right: 82
+    GETFLOATEXP <exp> (102)
+        on left: 110
+        on right: 83
+    GETARRAYEXP <exp> (103)
+        on left: 111
+        on right: 84
+    GETFARRAYEXP <exp> (104)
+        on left: 112
+        on right: 85
+
+
+State 0
+
+    0 $accept: • COMPROOT $end
+    1 COMPROOT: • COMPROOT COMPUNIT
+    2         | • COMPUNIT
+    3 COMPUNIT: • DECL
+    4         | • FUNCDEF
+    5 DECL: • CONSTDECL
+    6     | • VARDECL
+    7 CONSTDECL: • CONST BTYPE CONSTDEFLIST ';'
+   10 BTYPE: • INTT
+   11      | • FLOATT
+   12      | • VOIDT
+   14 VARDECL: • BTYPE VARDEFLIST ';'
+   27 FUNCDEF: • BTYPE IDEXP '(' PARAMETERS ')' BLOCK
+
+    VOIDT   shift, and go to state 1
+    INTT    shift, and go to state 2
+    FLOATT  shift, and go to state 3
+    CONST   shift, and go to state 4
+
+    COMPROOT   go to state 5
+    COMPUNIT   go to state 6
+    DECL       go to state 7
+    CONSTDECL  go to state 8
+    BTYPE      go to state 9
+    VARDECL    go to state 10
+    FUNCDEF    go to state 11
+
+
+State 1
+
+   12 BTYPE: VOIDT •
+
+    $default  reduce using rule 12 (BTYPE)
+
+
+State 2
+
+   10 BTYPE: INTT •
+
+    $default  reduce using rule 10 (BTYPE)
+
+
+State 3
+
+   11 BTYPE: FLOATT •
+
+    $default  reduce using rule 11 (BTYPE)
+
+
+State 4
+
+    7 CONSTDECL: CONST • BTYPE CONSTDEFLIST ';'
+   10 BTYPE: • INTT
+   11      | • FLOATT
+   12      | • VOIDT
+
+    VOIDT   shift, and go to state 1
+    INTT    shift, and go to state 2
+    FLOATT  shift, and go to state 3
+
+    BTYPE  go to state 12
+
+
+State 5
+
+    0 $accept: COMPROOT • $end
+    1 COMPROOT: COMPROOT • COMPUNIT
+    3 COMPUNIT: • DECL
+    4         | • FUNCDEF
+    5 DECL: • CONSTDECL
+    6     | • VARDECL
+    7 CONSTDECL: • CONST BTYPE CONSTDEFLIST ';'
+   10 BTYPE: • INTT
+   11      | • FLOATT
+   12      | • VOIDT
+   14 VARDECL: • BTYPE VARDEFLIST ';'
+   27 FUNCDEF: • BTYPE IDEXP '(' PARAMETERS ')' BLOCK
+
+    $end    shift, and go to state 13
+    VOIDT   shift, and go to state 1
+    INTT    shift, and go to state 2
+    FLOATT  shift, and go to state 3
+    CONST   shift, and go to state 4
+
+    COMPUNIT   go to state 14
+    DECL       go to state 7
+    CONSTDECL  go to state 8
+    BTYPE      go to state 9
+    VARDECL    go to state 10
+    FUNCDEF    go to state 11
+
+
+State 6
+
+    2 COMPROOT: COMPUNIT •
+
+    $default  reduce using rule 2 (COMPROOT)
+
+
+State 7
+
+    3 COMPUNIT: DECL •
+
+    $default  reduce using rule 3 (COMPUNIT)
+
+
+State 8
+
+    5 DECL: CONSTDECL •
+
+    $default  reduce using rule 5 (DECL)
+
+
+State 9
+
+   14 VARDECL: BTYPE • VARDEFLIST ';'
+   15 VARDEFLIST: • VARDEF
+   16           | • VARDEFLIST ',' VARDEF
+   17 VARDEF: • IDEXP ARRAYINDEXLIST
+   18       | • IDEXP ARRAYINDEXLIST '=' INITVAL
+   27 FUNCDEF: BTYPE • IDEXP '(' PARAMETERS ')' BLOCK
+   86 IDEXP: • ID
+
+    ID  shift, and go to state 15
+
+    VARDEFLIST  go to state 16
+    VARDEF      go to state 17
+    IDEXP       go to state 18
+
+
+State 10
+
+    6 DECL: VARDECL •
+
+    $default  reduce using rule 6 (DECL)
+
+
+State 11
+
+    4 COMPUNIT: FUNCDEF •
+
+    $default  reduce using rule 4 (COMPUNIT)
+
+
+State 12
+
+    7 CONSTDECL: CONST BTYPE • CONSTDEFLIST ';'
+    8 CONSTDEFLIST: • CONSTDEF
+    9             | • CONSTDEFLIST ',' CONSTDEF
+   13 CONSTDEF: • IDEXP ARRAYINDEXLIST '=' INITVAL
+   86 IDEXP: • ID
+
+    ID  shift, and go to state 15
+
+    CONSTDEFLIST  go to state 19
+    CONSTDEF      go to state 20
+    IDEXP         go to state 21
+
+
+State 13
+
+    0 $accept: COMPROOT $end •
+
+    $default  accept
+
+
+State 14
+
+    1 COMPROOT: COMPROOT COMPUNIT •
+
+    $default  reduce using rule 1 (COMPROOT)
+
+
+State 15
+
+   86 IDEXP: ID •
+
+    $default  reduce using rule 86 (IDEXP)
+
+
+State 16
+
+   14 VARDECL: BTYPE VARDEFLIST • ';'
+   16 VARDEFLIST: VARDEFLIST • ',' VARDEF
+
+    ';'  shift, and go to state 22
+    ','  shift, and go to state 23
+
+
+State 17
+
+   15 VARDEFLIST: VARDEF •
+
+    $default  reduce using rule 15 (VARDEFLIST)
+
+
+State 18
+
+   17 VARDEF: IDEXP • ARRAYINDEXLIST
+   18       | IDEXP • ARRAYINDEXLIST '=' INITVAL
+   19 ARRAYINDEXLIST: ε •  [';', ',', '=', '[']
+   20               | • ARRAYINDEXLIST '[' EXP ']'
+   27 FUNCDEF: BTYPE IDEXP • '(' PARAMETERS ')' BLOCK
+
+    '('  shift, and go to state 24
+
+    $default  reduce using rule 19 (ARRAYINDEXLIST)
+
+    ARRAYINDEXLIST  go to state 25
+
+
+State 19
+
+    7 CONSTDECL: CONST BTYPE CONSTDEFLIST • ';'
+    9 CONSTDEFLIST: CONSTDEFLIST • ',' CONSTDEF
+
+    ';'  shift, and go to state 26
+    ','  shift, and go to state 27
+
+
+State 20
+
+    8 CONSTDEFLIST: CONSTDEF •
+
+    $default  reduce using rule 8 (CONSTDEFLIST)
+
+
+State 21
+
+   13 CONSTDEF: IDEXP • ARRAYINDEXLIST '=' INITVAL
+   19 ARRAYINDEXLIST: ε •
+   20               | • ARRAYINDEXLIST '[' EXP ']'
+
+    $default  reduce using rule 19 (ARRAYINDEXLIST)
+
+    ARRAYINDEXLIST  go to state 28
+
+
+State 22
+
+   14 VARDECL: BTYPE VARDEFLIST ';' •
+
+    $default  reduce using rule 14 (VARDECL)
+
+
+State 23
+
+   16 VARDEFLIST: VARDEFLIST ',' • VARDEF
+   17 VARDEF: • IDEXP ARRAYINDEXLIST
+   18       | • IDEXP ARRAYINDEXLIST '=' INITVAL
+   86 IDEXP: • ID
+
+    ID  shift, and go to state 15
+
+    VARDEF  go to state 29
+    IDEXP   go to state 30
+
+
+State 24
+
+   10 BTYPE: • INTT
+   11      | • FLOATT
+   12      | • VOIDT
+   27 FUNCDEF: BTYPE IDEXP '(' • PARAMETERS ')' BLOCK
+   28 PARAMETERS: ε •  [',', ')']
+   29           | • PARAMETER
+   30           | • PARAMETERS ',' PARAMETER
+   31 PARAMETER: • BTYPE IDEXP
+   32          | • BTYPE IDEXP '[' ']' ARRAYINDEXLIST
+
+    VOIDT   shift, and go to state 1
+    INTT    shift, and go to state 2
+    FLOATT  shift, and go to state 3
+
+    $default  reduce using rule 28 (PARAMETERS)
+
+    BTYPE       go to state 31
+    PARAMETERS  go to state 32
+    PARAMETER   go to state 33
+
+
+State 25
+
+   17 VARDEF: IDEXP ARRAYINDEXLIST •  [';', ',']
+   18       | IDEXP ARRAYINDEXLIST • '=' INITVAL
+   20 ARRAYINDEXLIST: ARRAYINDEXLIST • '[' EXP ']'
+
+    '='  shift, and go to state 34
+    '['  shift, and go to state 35
+
+    $default  reduce using rule 17 (VARDEF)
+
+
+State 26
+
+    7 CONSTDECL: CONST BTYPE CONSTDEFLIST ';' •
+
+    $default  reduce using rule 7 (CONSTDECL)
+
+
+State 27
+
+    9 CONSTDEFLIST: CONSTDEFLIST ',' • CONSTDEF
+   13 CONSTDEF: • IDEXP ARRAYINDEXLIST '=' INITVAL
+   86 IDEXP: • ID
+
+    ID  shift, and go to state 15
+
+    CONSTDEF  go to state 36
+    IDEXP     go to state 21
+
+
+State 28
+
+   13 CONSTDEF: IDEXP ARRAYINDEXLIST • '=' INITVAL
+   20 ARRAYINDEXLIST: ARRAYINDEXLIST • '[' EXP ']'
+
+    '='  shift, and go to state 37
+    '['  shift, and go to state 35
+
+
+State 29
+
+   16 VARDEFLIST: VARDEFLIST ',' VARDEF •
+
+    $default  reduce using rule 16 (VARDEFLIST)
+
+
+State 30
+
+   17 VARDEF: IDEXP • ARRAYINDEXLIST
+   18       | IDEXP • ARRAYINDEXLIST '=' INITVAL
+   19 ARRAYINDEXLIST: ε •
+   20               | • ARRAYINDEXLIST '[' EXP ']'
+
+    $default  reduce using rule 19 (ARRAYINDEXLIST)
+
+    ARRAYINDEXLIST  go to state 25
+
+
+State 31
+
+   31 PARAMETER: BTYPE • IDEXP
+   32          | BTYPE • IDEXP '[' ']' ARRAYINDEXLIST
+   86 IDEXP: • ID
+
+    ID  shift, and go to state 15
+
+    IDEXP  go to state 38
+
+
+State 32
+
+   27 FUNCDEF: BTYPE IDEXP '(' PARAMETERS • ')' BLOCK
+   30 PARAMETERS: PARAMETERS • ',' PARAMETER
+
+    ','  shift, and go to state 39
+    ')'  shift, and go to state 40
+
+
+State 33
+
+   29 PARAMETERS: PARAMETER •
+
+    $default  reduce using rule 29 (PARAMETERS)
+
+
+State 34
+
+   18 VARDEF: IDEXP ARRAYINDEXLIST '=' • INITVAL
+   21 INITVAL: • EXP
+   22        | • ARRAYINITIALVALS
+   23 ARRAYINITIALVALS: • '{' INITVALLIST '}'
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '{'          shift, and go to state 51
+    '('          shift, and go to state 52
+
+    INITVAL           go to state 53
+    ARRAYINITIALVALS  go to state 54
+    EXP               go to state 55
+    IDEXP             go to state 56
+    LVAL              go to state 57
+    PRIMARYEXP        go to state 58
+    NUMBER            go to state 59
+    UNARYEXP          go to state 60
+    CALLEXP           go to state 61
+    UNARYOP           go to state 62
+    MULEXP            go to state 63
+    ADDEXP            go to state 64
+    RELEXP            go to state 65
+    EQEXP             go to state 66
+    LANDEXP           go to state 67
+    LOREXP            go to state 68
+    GETINTEXP         go to state 69
+    GETCHEXP          go to state 70
+    GETFLOATEXP       go to state 71
+    GETARRAYEXP       go to state 72
+    GETFARRAYEXP      go to state 73
+
+
+State 35
+
+   20 ARRAYINDEXLIST: ARRAYINDEXLIST '[' • EXP ']'
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 74
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 36
+
+    9 CONSTDEFLIST: CONSTDEFLIST ',' CONSTDEF •
+
+    $default  reduce using rule 9 (CONSTDEFLIST)
+
+
+State 37
+
+   13 CONSTDEF: IDEXP ARRAYINDEXLIST '=' • INITVAL
+   21 INITVAL: • EXP
+   22        | • ARRAYINITIALVALS
+   23 ARRAYINITIALVALS: • '{' INITVALLIST '}'
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '{'          shift, and go to state 51
+    '('          shift, and go to state 52
+
+    INITVAL           go to state 75
+    ARRAYINITIALVALS  go to state 54
+    EXP               go to state 55
+    IDEXP             go to state 56
+    LVAL              go to state 57
+    PRIMARYEXP        go to state 58
+    NUMBER            go to state 59
+    UNARYEXP          go to state 60
+    CALLEXP           go to state 61
+    UNARYOP           go to state 62
+    MULEXP            go to state 63
+    ADDEXP            go to state 64
+    RELEXP            go to state 65
+    EQEXP             go to state 66
+    LANDEXP           go to state 67
+    LOREXP            go to state 68
+    GETINTEXP         go to state 69
+    GETCHEXP          go to state 70
+    GETFLOATEXP       go to state 71
+    GETARRAYEXP       go to state 72
+    GETFARRAYEXP      go to state 73
+
+
+State 38
+
+   31 PARAMETER: BTYPE IDEXP •  [',', ')']
+   32          | BTYPE IDEXP • '[' ']' ARRAYINDEXLIST
+
+    '['  shift, and go to state 76
+
+    $default  reduce using rule 31 (PARAMETER)
+
+
+State 39
+
+   10 BTYPE: • INTT
+   11      | • FLOATT
+   12      | • VOIDT
+   30 PARAMETERS: PARAMETERS ',' • PARAMETER
+   31 PARAMETER: • BTYPE IDEXP
+   32          | • BTYPE IDEXP '[' ']' ARRAYINDEXLIST
+
+    VOIDT   shift, and go to state 1
+    INTT    shift, and go to state 2
+    FLOATT  shift, and go to state 3
+
+    BTYPE      go to state 31
+    PARAMETER  go to state 77
+
+
+State 40
+
+   27 FUNCDEF: BTYPE IDEXP '(' PARAMETERS ')' • BLOCK
+   33 BLOCK: • '{' BLOCKITEMLIST '}'
+
+    '{'  shift, and go to state 78
+
+    BLOCK  go to state 79
+
+
+State 41
+
+   91 NUMBER: INTNUMBER •
+
+    $default  reduce using rule 91 (NUMBER)
+
+
+State 42
+
+  108 GETINTEXP: GETINT • '(' ')'
+
+    '('  shift, and go to state 80
+
+
+State 43
+
+  109 GETCHEXP: GETCH • '(' ')'
+
+    '('  shift, and go to state 81
+
+
+State 44
+
+  110 GETFLOATEXP: GETFLOAT • '(' ')'
+
+    '('  shift, and go to state 82
+
+
+State 45
+
+  111 GETARRAYEXP: GETARRAY • '(' EXP ')'
+
+    '('  shift, and go to state 83
+
+
+State 46
+
+  112 GETFARRAYEXP: GETFARRAY • '(' EXP ')'
+
+    '('  shift, and go to state 84
+
+
+State 47
+
+   92 NUMBER: FLOATNUMBER •
+
+    $default  reduce using rule 92 (NUMBER)
+
+
+State 48
+
+   95 UNARYOP: ADDOP •
+
+    $default  reduce using rule 95 (UNARYOP)
+
+
+State 49
+
+   96 UNARYOP: SUBOP •
+
+    $default  reduce using rule 96 (UNARYOP)
+
+
+State 50
+
+   97 UNARYOP: NOTOP •
+
+    $default  reduce using rule 97 (UNARYOP)
+
+
+State 51
+
+   21 INITVAL: • EXP
+   22        | • ARRAYINITIALVALS
+   23 ARRAYINITIALVALS: • '{' INITVALLIST '}'
+   23                 | '{' • INITVALLIST '}'
+   24 INITVALLIST: ε •  [',', '}']
+   25            | • INITVAL
+   26            | • INITVALLIST ',' INITVAL
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '{'          shift, and go to state 51
+    '('          shift, and go to state 52
+
+    $default  reduce using rule 24 (INITVALLIST)
+
+    INITVAL           go to state 85
+    ARRAYINITIALVALS  go to state 54
+    INITVALLIST       go to state 86
+    EXP               go to state 55
+    IDEXP             go to state 56
+    LVAL              go to state 57
+    PRIMARYEXP        go to state 58
+    NUMBER            go to state 59
+    UNARYEXP          go to state 60
+    CALLEXP           go to state 61
+    UNARYOP           go to state 62
+    MULEXP            go to state 63
+    ADDEXP            go to state 64
+    RELEXP            go to state 65
+    EQEXP             go to state 66
+    LANDEXP           go to state 67
+    LOREXP            go to state 68
+    GETINTEXP         go to state 69
+    GETCHEXP          go to state 70
+    GETFLOATEXP       go to state 71
+    GETARRAYEXP       go to state 72
+    GETFARRAYEXP      go to state 73
+
+
+State 52
+
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   88           | '(' • EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 87
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 53
+
+   18 VARDEF: IDEXP ARRAYINDEXLIST '=' INITVAL •
+
+    $default  reduce using rule 18 (VARDEF)
+
+
+State 54
+
+   22 INITVAL: ARRAYINITIALVALS •
+
+    $default  reduce using rule 22 (INITVAL)
+
+
+State 55
+
+   21 INITVAL: EXP •  [';', ',', '}']
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+
+    $default  reduce using rule 21 (INITVAL)
+
+
+State 56
+
+   19 ARRAYINDEXLIST: ε •  [ADDOP, SUBOP, LANDOP, LOROP, MULOP, EQUALOP, RELOP, ';', ',', '=', '[', ']', '}', ')']
+   20               | • ARRAYINDEXLIST '[' EXP ']'
+   87 LVAL: IDEXP • ARRAYINDEXLIST
+   94 CALLEXP: IDEXP • '(' EXPLIST ')'
+
+    '('  shift, and go to state 95
+
+    $default  reduce using rule 19 (ARRAYINDEXLIST)
+
+    ARRAYINDEXLIST  go to state 96
+
+
+State 57
+
+   89 PRIMARYEXP: LVAL •
+
+    $default  reduce using rule 89 (PRIMARYEXP)
+
+
+State 58
+
+   72 EXP: PRIMARYEXP •
+
+    $default  reduce using rule 72 (EXP)
+
+
+State 59
+
+   90 PRIMARYEXP: NUMBER •
+
+    $default  reduce using rule 90 (PRIMARYEXP)
+
+
+State 60
+
+   73 EXP: UNARYEXP •
+
+    $default  reduce using rule 73 (EXP)
+
+
+State 61
+
+   80 EXP: CALLEXP •
+
+    $default  reduce using rule 80 (EXP)
+
+
+State 62
+
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   93         | UNARYOP • EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 97
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 63
+
+   74 EXP: MULEXP •
+
+    $default  reduce using rule 74 (EXP)
+
+
+State 64
+
+   75 EXP: ADDEXP •
+
+    $default  reduce using rule 75 (EXP)
+
+
+State 65
+
+   76 EXP: RELEXP •
+
+    $default  reduce using rule 76 (EXP)
+
+
+State 66
+
+   77 EXP: EQEXP •
+
+    $default  reduce using rule 77 (EXP)
+
+
+State 67
+
+   78 EXP: LANDEXP •
+
+    $default  reduce using rule 78 (EXP)
+
+
+State 68
+
+   79 EXP: LOREXP •
+
+    $default  reduce using rule 79 (EXP)
+
+
+State 69
+
+   81 EXP: GETINTEXP •
+
+    $default  reduce using rule 81 (EXP)
+
+
+State 70
+
+   82 EXP: GETCHEXP •
+
+    $default  reduce using rule 82 (EXP)
+
+
+State 71
+
+   83 EXP: GETFLOATEXP •
+
+    $default  reduce using rule 83 (EXP)
+
+
+State 72
+
+   84 EXP: GETARRAYEXP •
+
+    $default  reduce using rule 84 (EXP)
+
+
+State 73
+
+   85 EXP: GETFARRAYEXP •
+
+    $default  reduce using rule 85 (EXP)
+
+
+State 74
+
+   20 ARRAYINDEXLIST: ARRAYINDEXLIST '[' EXP • ']'
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+    ']'      shift, and go to state 98
+
+
+State 75
+
+   13 CONSTDEF: IDEXP ARRAYINDEXLIST '=' INITVAL •
+
+    $default  reduce using rule 13 (CONSTDEF)
+
+
+State 76
+
+   32 PARAMETER: BTYPE IDEXP '[' • ']' ARRAYINDEXLIST
+
+    ']'  shift, and go to state 99
+
+
+State 77
+
+   30 PARAMETERS: PARAMETERS ',' PARAMETER •
+
+    $default  reduce using rule 30 (PARAMETERS)
+
+
+State 78
+
+   33 BLOCK: '{' • BLOCKITEMLIST '}'
+   34 BLOCKITEMLIST: ε •
+   35              | • BLOCKITEMLIST BLOCKITEM
+
+    $default  reduce using rule 34 (BLOCKITEMLIST)
+
+    BLOCKITEMLIST  go to state 100
+
+
+State 79
+
+   27 FUNCDEF: BTYPE IDEXP '(' PARAMETERS ')' BLOCK •
+
+    $default  reduce using rule 27 (FUNCDEF)
+
+
+State 80
+
+  108 GETINTEXP: GETINT '(' • ')'
+
+    ')'  shift, and go to state 101
+
+
+State 81
+
+  109 GETCHEXP: GETCH '(' • ')'
+
+    ')'  shift, and go to state 102
+
+
+State 82
+
+  110 GETFLOATEXP: GETFLOAT '(' • ')'
+
+    ')'  shift, and go to state 103
+
+
+State 83
+
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  111            | GETARRAY '(' • EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 104
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 84
+
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+  112             | GETFARRAY '(' • EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 105
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 85
+
+   25 INITVALLIST: INITVAL •
+
+    $default  reduce using rule 25 (INITVALLIST)
+
+
+State 86
+
+   23 ARRAYINITIALVALS: '{' INITVALLIST • '}'
+   26 INITVALLIST: INITVALLIST • ',' INITVAL
+
+    ','  shift, and go to state 106
+    '}'  shift, and go to state 107
+
+
+State 87
+
+   88 PRIMARYEXP: '(' EXP • ')'
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+    ')'      shift, and go to state 108
+
+
+State 88
+
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  102       | EXP ADDOP • EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 109
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 89
+
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  103       | EXP SUBOP • EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 110
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 90
+
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  106        | EXP LANDOP • EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 111
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 91
+
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  107       | EXP LOROP • EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 112
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 92
+
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  101       | EXP MULOP • EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 113
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 93
+
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  105      | EXP EQUALOP • EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 114
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 94
+
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  104       | EXP RELOP • EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 115
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 95
+
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   94        | IDEXP '(' • EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+   98 EXPLIST: ε •  [',', ')']
+   99        | • EXP
+  100        | • EXPLIST ',' EXP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    $default  reduce using rule 98 (EXPLIST)
+
+    EXP           go to state 116
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    EXPLIST       go to state 117
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 96
+
+   20 ARRAYINDEXLIST: ARRAYINDEXLIST • '[' EXP ']'
+   87 LVAL: IDEXP ARRAYINDEXLIST •  [ADDOP, SUBOP, LANDOP, LOROP, MULOP, EQUALOP, RELOP, ';', ',', '=', ']', '}', ')']
+
+    '['  shift, and go to state 35
+
+    $default  reduce using rule 87 (LVAL)
+
+
+State 97
+
+   93 UNARYEXP: UNARYOP EXP •  [ADDOP, SUBOP, LANDOP, LOROP, MULOP, EQUALOP, RELOP, ';', ',', ']', '}', ')']
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    $default  reduce using rule 93 (UNARYEXP)
+
+    Conflict between rule 93 and token ADDOP resolved as reduce (ADDOP < prec1).
+    Conflict between rule 93 and token SUBOP resolved as reduce (SUBOP < prec1).
+    Conflict between rule 93 and token LANDOP resolved as reduce (LANDOP < prec1).
+    Conflict between rule 93 and token LOROP resolved as reduce (LOROP < prec1).
+    Conflict between rule 93 and token MULOP resolved as reduce (MULOP < prec1).
+    Conflict between rule 93 and token EQUALOP resolved as reduce (EQUALOP < prec1).
+    Conflict between rule 93 and token RELOP resolved as reduce (RELOP < prec1).
+
+
+State 98
+
+   20 ARRAYINDEXLIST: ARRAYINDEXLIST '[' EXP ']' •
+
+    $default  reduce using rule 20 (ARRAYINDEXLIST)
+
+
+State 99
+
+   19 ARRAYINDEXLIST: ε •
+   20               | • ARRAYINDEXLIST '[' EXP ']'
+   32 PARAMETER: BTYPE IDEXP '[' ']' • ARRAYINDEXLIST
+
+    $default  reduce using rule 19 (ARRAYINDEXLIST)
+
+    ARRAYINDEXLIST  go to state 118
+
+
+State 100
+
+    5 DECL: • CONSTDECL
+    6     | • VARDECL
+    7 CONSTDECL: • CONST BTYPE CONSTDEFLIST ';'
+   10 BTYPE: • INTT
+   11      | • FLOATT
+   12      | • VOIDT
+   14 VARDECL: • BTYPE VARDEFLIST ';'
+   33 BLOCK: • '{' BLOCKITEMLIST '}'
+   33      | '{' BLOCKITEMLIST • '}'
+   35 BLOCKITEMLIST: BLOCKITEMLIST • BLOCKITEM
+   36 BLOCKITEM: • DECL
+   37          | • STMT
+   38 STMT: • ASSIGNSTMT ';'
+   39     | • ';'
+   40     | • EXPSTMT ';'
+   41     | • BLOCK
+   42     | • IFSTMT
+   43     | • WHILESTMT
+   44     | • BREAKSTMT ';'
+   45     | • CONTINUESTMT ';'
+   46     | • RETURNSTMT ';'
+   47     | • PUTINTSTMT ';'
+   48     | • PUTCHSTMT ';'
+   49     | • PUTARRAYSTMT ';'
+   50     | • PUTFLOATSTMT ';'
+   51     | • PUTFARRAYSTMT ';'
+   52     | • PUTFSTMT ';'
+   53     | • STARTTIMESTMT ';'
+   54     | • STOPTIMESTMT ';'
+   55 ASSIGNSTMT: • LVAL '=' EXP
+   56 EXPSTMT: • EXP
+   57 IFSTMT: • IF '(' EXP ')' STMT
+   58       | • IF '(' EXP ')' STMT ELSE STMT
+   59 WHILESTMT: • WHILE '(' EXP ')' STMT
+   60 BREAKSTMT: • BREAK
+   61 CONTINUESTMT: • CONTINUE
+   62 RETURNSTMT: • RETURN
+   63           | • RETURN EXP
+   64 PUTINTSTMT: • PUTINT '(' EXP ')'
+   65 PUTCHSTMT: • PUTCH '(' EXP ')'
+   66 PUTFLOATSTMT: • PUTFLOAT '(' EXP ')'
+   67 PUTARRAYSTMT: • PUTARRAY '(' EXP ',' EXP ')'
+   68 PUTFARRAYSTMT: • PUTFARRAY '(' EXP ',' EXP ')'
+   69 PUTFSTMT: • PUTF '(' EXPLIST ')'
+   70 STARTTIMESTMT: • STARTTIME
+   71 STOPTIMESTMT: • STOPTIME
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    RETURN       shift, and go to state 119
+    IF           shift, and go to state 120
+    WHILE        shift, and go to state 121
+    BREAK        shift, and go to state 122
+    CONTINUE     shift, and go to state 123
+    VOIDT        shift, and go to state 1
+    INTT         shift, and go to state 2
+    FLOATT       shift, and go to state 3
+    CONST        shift, and go to state 4
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    PUTINT       shift, and go to state 124
+    PUTCH        shift, and go to state 125
+    PUTARRAY     shift, and go to state 126
+    PUTFLOAT     shift, and go to state 127
+    PUTFARRAY    shift, and go to state 128
+    PUTF         shift, and go to state 129
+    STARTTIME    shift, and go to state 130
+    STOPTIME     shift, and go to state 131
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    ';'          shift, and go to state 132
+    '{'          shift, and go to state 78
+    '}'          shift, and go to state 133
+    '('          shift, and go to state 52
+
+    DECL           go to state 134
+    CONSTDECL      go to state 8
+    BTYPE          go to state 135
+    VARDECL        go to state 10
+    BLOCK          go to state 136
+    BLOCKITEM      go to state 137
+    STMT           go to state 138
+    ASSIGNSTMT     go to state 139
+    EXPSTMT        go to state 140
+    IFSTMT         go to state 141
+    WHILESTMT      go to state 142
+    BREAKSTMT      go to state 143
+    CONTINUESTMT   go to state 144
+    RETURNSTMT     go to state 145
+    PUTINTSTMT     go to state 146
+    PUTCHSTMT      go to state 147
+    PUTFLOATSTMT   go to state 148
+    PUTARRAYSTMT   go to state 149
+    PUTFARRAYSTMT  go to state 150
+    PUTFSTMT       go to state 151
+    STARTTIMESTMT  go to state 152
+    STOPTIMESTMT   go to state 153
+    EXP            go to state 154
+    IDEXP          go to state 56
+    LVAL           go to state 155
+    PRIMARYEXP     go to state 58
+    NUMBER         go to state 59
+    UNARYEXP       go to state 60
+    CALLEXP        go to state 61
+    UNARYOP        go to state 62
+    MULEXP         go to state 63
+    ADDEXP         go to state 64
+    RELEXP         go to state 65
+    EQEXP          go to state 66
+    LANDEXP        go to state 67
+    LOREXP         go to state 68
+    GETINTEXP      go to state 69
+    GETCHEXP       go to state 70
+    GETFLOATEXP    go to state 71
+    GETARRAYEXP    go to state 72
+    GETFARRAYEXP   go to state 73
+
+
+State 101
+
+  108 GETINTEXP: GETINT '(' ')' •
+
+    $default  reduce using rule 108 (GETINTEXP)
+
+
+State 102
+
+  109 GETCHEXP: GETCH '(' ')' •
+
+    $default  reduce using rule 109 (GETCHEXP)
+
+
+State 103
+
+  110 GETFLOATEXP: GETFLOAT '(' ')' •
+
+    $default  reduce using rule 110 (GETFLOATEXP)
+
+
+State 104
+
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+  111 GETARRAYEXP: GETARRAY '(' EXP • ')'
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+    ')'      shift, and go to state 156
+
+
+State 105
+
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+  112 GETFARRAYEXP: GETFARRAY '(' EXP • ')'
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+    ')'      shift, and go to state 157
+
+
+State 106
+
+   21 INITVAL: • EXP
+   22        | • ARRAYINITIALVALS
+   23 ARRAYINITIALVALS: • '{' INITVALLIST '}'
+   26 INITVALLIST: INITVALLIST ',' • INITVAL
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '{'          shift, and go to state 51
+    '('          shift, and go to state 52
+
+    INITVAL           go to state 158
+    ARRAYINITIALVALS  go to state 54
+    EXP               go to state 55
+    IDEXP             go to state 56
+    LVAL              go to state 57
+    PRIMARYEXP        go to state 58
+    NUMBER            go to state 59
+    UNARYEXP          go to state 60
+    CALLEXP           go to state 61
+    UNARYOP           go to state 62
+    MULEXP            go to state 63
+    ADDEXP            go to state 64
+    RELEXP            go to state 65
+    EQEXP             go to state 66
+    LANDEXP           go to state 67
+    LOREXP            go to state 68
+    GETINTEXP         go to state 69
+    GETCHEXP          go to state 70
+    GETFLOATEXP       go to state 71
+    GETARRAYEXP       go to state 72
+    GETFARRAYEXP      go to state 73
+
+
+State 107
+
+   23 ARRAYINITIALVALS: '{' INITVALLIST '}' •
+
+    $default  reduce using rule 23 (ARRAYINITIALVALS)
+
+
+State 108
+
+   88 PRIMARYEXP: '(' EXP ')' •
+
+    $default  reduce using rule 88 (PRIMARYEXP)
+
+
+State 109
+
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  102       | EXP ADDOP EXP •  [ADDOP, SUBOP, LANDOP, LOROP, EQUALOP, RELOP, ';', ',', ']', '}', ')']
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    MULOP  shift, and go to state 92
+
+    $default  reduce using rule 102 (ADDEXP)
+
+    Conflict between rule 102 and token ADDOP resolved as reduce (%left ADDOP).
+    Conflict between rule 102 and token SUBOP resolved as reduce (%left SUBOP).
+    Conflict between rule 102 and token LANDOP resolved as reduce (LANDOP < ADDOP).
+    Conflict between rule 102 and token LOROP resolved as reduce (LOROP < ADDOP).
+    Conflict between rule 102 and token MULOP resolved as shift (ADDOP < MULOP).
+    Conflict between rule 102 and token EQUALOP resolved as reduce (EQUALOP < ADDOP).
+    Conflict between rule 102 and token RELOP resolved as reduce (RELOP < ADDOP).
+
+
+State 110
+
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  103       | EXP SUBOP EXP •  [ADDOP, SUBOP, LANDOP, LOROP, EQUALOP, RELOP, ';', ',', ']', '}', ')']
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    MULOP  shift, and go to state 92
+
+    $default  reduce using rule 103 (ADDEXP)
+
+    Conflict between rule 103 and token ADDOP resolved as reduce (%left ADDOP).
+    Conflict between rule 103 and token SUBOP resolved as reduce (%left SUBOP).
+    Conflict between rule 103 and token LANDOP resolved as reduce (LANDOP < SUBOP).
+    Conflict between rule 103 and token LOROP resolved as reduce (LOROP < SUBOP).
+    Conflict between rule 103 and token MULOP resolved as shift (SUBOP < MULOP).
+    Conflict between rule 103 and token EQUALOP resolved as reduce (EQUALOP < SUBOP).
+    Conflict between rule 103 and token RELOP resolved as reduce (RELOP < SUBOP).
+
+
+State 111
+
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  106        | EXP LANDOP EXP •  [LANDOP, LOROP, ';', ',', ']', '}', ')']
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+
+    $default  reduce using rule 106 (LANDEXP)
+
+    Conflict between rule 106 and token ADDOP resolved as shift (LANDOP < ADDOP).
+    Conflict between rule 106 and token SUBOP resolved as shift (LANDOP < SUBOP).
+    Conflict between rule 106 and token LANDOP resolved as reduce (%left LANDOP).
+    Conflict between rule 106 and token LOROP resolved as reduce (LOROP < LANDOP).
+    Conflict between rule 106 and token MULOP resolved as shift (LANDOP < MULOP).
+    Conflict between rule 106 and token EQUALOP resolved as shift (LANDOP < EQUALOP).
+    Conflict between rule 106 and token RELOP resolved as shift (LANDOP < RELOP).
+
+
+State 112
+
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+  107       | EXP LOROP EXP •  [LOROP, ';', ',', ']', '}', ')']
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+
+    $default  reduce using rule 107 (LOREXP)
+
+    Conflict between rule 107 and token ADDOP resolved as shift (LOROP < ADDOP).
+    Conflict between rule 107 and token SUBOP resolved as shift (LOROP < SUBOP).
+    Conflict between rule 107 and token LANDOP resolved as shift (LOROP < LANDOP).
+    Conflict between rule 107 and token LOROP resolved as reduce (%left LOROP).
+    Conflict between rule 107 and token MULOP resolved as shift (LOROP < MULOP).
+    Conflict between rule 107 and token EQUALOP resolved as shift (LOROP < EQUALOP).
+    Conflict between rule 107 and token RELOP resolved as shift (LOROP < RELOP).
+
+
+State 113
+
+  101 MULEXP: EXP • MULOP EXP
+  101       | EXP MULOP EXP •  [ADDOP, SUBOP, LANDOP, LOROP, MULOP, EQUALOP, RELOP, ';', ',', ']', '}', ')']
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    $default  reduce using rule 101 (MULEXP)
+
+    Conflict between rule 101 and token ADDOP resolved as reduce (ADDOP < MULOP).
+    Conflict between rule 101 and token SUBOP resolved as reduce (SUBOP < MULOP).
+    Conflict between rule 101 and token LANDOP resolved as reduce (LANDOP < MULOP).
+    Conflict between rule 101 and token LOROP resolved as reduce (LOROP < MULOP).
+    Conflict between rule 101 and token MULOP resolved as reduce (%left MULOP).
+    Conflict between rule 101 and token EQUALOP resolved as reduce (EQUALOP < MULOP).
+    Conflict between rule 101 and token RELOP resolved as reduce (RELOP < MULOP).
+
+
+State 114
+
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  105      | EXP EQUALOP EXP •  [LANDOP, LOROP, EQUALOP, ';', ',', ']', '}', ')']
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP  shift, and go to state 88
+    SUBOP  shift, and go to state 89
+    MULOP  shift, and go to state 92
+    RELOP  shift, and go to state 94
+
+    $default  reduce using rule 105 (EQEXP)
+
+    Conflict between rule 105 and token ADDOP resolved as shift (EQUALOP < ADDOP).
+    Conflict between rule 105 and token SUBOP resolved as shift (EQUALOP < SUBOP).
+    Conflict between rule 105 and token LANDOP resolved as reduce (LANDOP < EQUALOP).
+    Conflict between rule 105 and token LOROP resolved as reduce (LOROP < EQUALOP).
+    Conflict between rule 105 and token MULOP resolved as shift (EQUALOP < MULOP).
+    Conflict between rule 105 and token EQUALOP resolved as reduce (%left EQUALOP).
+    Conflict between rule 105 and token RELOP resolved as shift (EQUALOP < RELOP).
+
+
+State 115
+
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  104       | EXP RELOP EXP •  [LANDOP, LOROP, EQUALOP, RELOP, ';', ',', ']', '}', ')']
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP  shift, and go to state 88
+    SUBOP  shift, and go to state 89
+    MULOP  shift, and go to state 92
+
+    $default  reduce using rule 104 (RELEXP)
+
+    Conflict between rule 104 and token ADDOP resolved as shift (RELOP < ADDOP).
+    Conflict between rule 104 and token SUBOP resolved as shift (RELOP < SUBOP).
+    Conflict between rule 104 and token LANDOP resolved as reduce (LANDOP < RELOP).
+    Conflict between rule 104 and token LOROP resolved as reduce (LOROP < RELOP).
+    Conflict between rule 104 and token MULOP resolved as shift (RELOP < MULOP).
+    Conflict between rule 104 and token EQUALOP resolved as reduce (EQUALOP < RELOP).
+    Conflict between rule 104 and token RELOP resolved as reduce (%left RELOP).
+
+
+State 116
+
+   99 EXPLIST: EXP •  [',', ')']
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+
+    $default  reduce using rule 99 (EXPLIST)
+
+
+State 117
+
+   94 CALLEXP: IDEXP '(' EXPLIST • ')'
+  100 EXPLIST: EXPLIST • ',' EXP
+
+    ','  shift, and go to state 159
+    ')'  shift, and go to state 160
+
+
+State 118
+
+   20 ARRAYINDEXLIST: ARRAYINDEXLIST • '[' EXP ']'
+   32 PARAMETER: BTYPE IDEXP '[' ']' ARRAYINDEXLIST •  [',', ')']
+
+    '['  shift, and go to state 35
+
+    $default  reduce using rule 32 (PARAMETER)
+
+
+State 119
+
+   62 RETURNSTMT: RETURN •  [';']
+   63           | RETURN • EXP
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    $default  reduce using rule 62 (RETURNSTMT)
+
+    EXP           go to state 161
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 120
+
+   57 IFSTMT: IF • '(' EXP ')' STMT
+   58       | IF • '(' EXP ')' STMT ELSE STMT
+
+    '('  shift, and go to state 162
+
+
+State 121
+
+   59 WHILESTMT: WHILE • '(' EXP ')' STMT
+
+    '('  shift, and go to state 163
+
+
+State 122
+
+   60 BREAKSTMT: BREAK •
+
+    $default  reduce using rule 60 (BREAKSTMT)
+
+
+State 123
+
+   61 CONTINUESTMT: CONTINUE •
+
+    $default  reduce using rule 61 (CONTINUESTMT)
+
+
+State 124
+
+   64 PUTINTSTMT: PUTINT • '(' EXP ')'
+
+    '('  shift, and go to state 164
+
+
+State 125
+
+   65 PUTCHSTMT: PUTCH • '(' EXP ')'
+
+    '('  shift, and go to state 165
+
+
+State 126
+
+   67 PUTARRAYSTMT: PUTARRAY • '(' EXP ',' EXP ')'
+
+    '('  shift, and go to state 166
+
+
+State 127
+
+   66 PUTFLOATSTMT: PUTFLOAT • '(' EXP ')'
+
+    '('  shift, and go to state 167
+
+
+State 128
+
+   68 PUTFARRAYSTMT: PUTFARRAY • '(' EXP ',' EXP ')'
+
+    '('  shift, and go to state 168
+
+
+State 129
+
+   69 PUTFSTMT: PUTF • '(' EXPLIST ')'
+
+    '('  shift, and go to state 169
+
+
+State 130
+
+   70 STARTTIMESTMT: STARTTIME •
+
+    $default  reduce using rule 70 (STARTTIMESTMT)
+
+
+State 131
+
+   71 STOPTIMESTMT: STOPTIME •
+
+    $default  reduce using rule 71 (STOPTIMESTMT)
+
+
+State 132
+
+   39 STMT: ';' •
+
+    $default  reduce using rule 39 (STMT)
+
+
+State 133
+
+   33 BLOCK: '{' BLOCKITEMLIST '}' •
+
+    $default  reduce using rule 33 (BLOCK)
+
+
+State 134
+
+   36 BLOCKITEM: DECL •
+
+    $default  reduce using rule 36 (BLOCKITEM)
+
+
+State 135
+
+   14 VARDECL: BTYPE • VARDEFLIST ';'
+   15 VARDEFLIST: • VARDEF
+   16           | • VARDEFLIST ',' VARDEF
+   17 VARDEF: • IDEXP ARRAYINDEXLIST
+   18       | • IDEXP ARRAYINDEXLIST '=' INITVAL
+   86 IDEXP: • ID
+
+    ID  shift, and go to state 15
+
+    VARDEFLIST  go to state 16
+    VARDEF      go to state 17
+    IDEXP       go to state 30
+
+
+State 136
+
+   41 STMT: BLOCK •
+
+    $default  reduce using rule 41 (STMT)
+
+
+State 137
+
+   35 BLOCKITEMLIST: BLOCKITEMLIST BLOCKITEM •
+
+    $default  reduce using rule 35 (BLOCKITEMLIST)
+
+
+State 138
+
+   37 BLOCKITEM: STMT •
+
+    $default  reduce using rule 37 (BLOCKITEM)
+
+
+State 139
+
+   38 STMT: ASSIGNSTMT • ';'
+
+    ';'  shift, and go to state 170
+
+
+State 140
+
+   40 STMT: EXPSTMT • ';'
+
+    ';'  shift, and go to state 171
+
+
+State 141
+
+   42 STMT: IFSTMT •
+
+    $default  reduce using rule 42 (STMT)
+
+
+State 142
+
+   43 STMT: WHILESTMT •
+
+    $default  reduce using rule 43 (STMT)
+
+
+State 143
+
+   44 STMT: BREAKSTMT • ';'
+
+    ';'  shift, and go to state 172
+
+
+State 144
+
+   45 STMT: CONTINUESTMT • ';'
+
+    ';'  shift, and go to state 173
+
+
+State 145
+
+   46 STMT: RETURNSTMT • ';'
+
+    ';'  shift, and go to state 174
+
+
+State 146
+
+   47 STMT: PUTINTSTMT • ';'
+
+    ';'  shift, and go to state 175
+
+
+State 147
+
+   48 STMT: PUTCHSTMT • ';'
+
+    ';'  shift, and go to state 176
+
+
+State 148
+
+   50 STMT: PUTFLOATSTMT • ';'
+
+    ';'  shift, and go to state 177
+
+
+State 149
+
+   49 STMT: PUTARRAYSTMT • ';'
+
+    ';'  shift, and go to state 178
+
+
+State 150
+
+   51 STMT: PUTFARRAYSTMT • ';'
+
+    ';'  shift, and go to state 179
+
+
+State 151
+
+   52 STMT: PUTFSTMT • ';'
+
+    ';'  shift, and go to state 180
+
+
+State 152
+
+   53 STMT: STARTTIMESTMT • ';'
+
+    ';'  shift, and go to state 181
+
+
+State 153
+
+   54 STMT: STOPTIMESTMT • ';'
+
+    ';'  shift, and go to state 182
+
+
+State 154
+
+   56 EXPSTMT: EXP •  [';']
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+
+    $default  reduce using rule 56 (EXPSTMT)
+
+
+State 155
+
+   55 ASSIGNSTMT: LVAL • '=' EXP
+   89 PRIMARYEXP: LVAL •  [ADDOP, SUBOP, LANDOP, LOROP, MULOP, EQUALOP, RELOP, ';']
+
+    '='  shift, and go to state 183
+
+    $default  reduce using rule 89 (PRIMARYEXP)
+
+
+State 156
+
+  111 GETARRAYEXP: GETARRAY '(' EXP ')' •
+
+    $default  reduce using rule 111 (GETARRAYEXP)
+
+
+State 157
+
+  112 GETFARRAYEXP: GETFARRAY '(' EXP ')' •
+
+    $default  reduce using rule 112 (GETFARRAYEXP)
+
+
+State 158
+
+   26 INITVALLIST: INITVALLIST ',' INITVAL •
+
+    $default  reduce using rule 26 (INITVALLIST)
+
+
+State 159
+
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  100 EXPLIST: EXPLIST ',' • EXP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 184
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 160
+
+   94 CALLEXP: IDEXP '(' EXPLIST ')' •
+
+    $default  reduce using rule 94 (CALLEXP)
+
+
+State 161
+
+   63 RETURNSTMT: RETURN EXP •  [';']
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+
+    $default  reduce using rule 63 (RETURNSTMT)
+
+
+State 162
+
+   57 IFSTMT: IF '(' • EXP ')' STMT
+   58       | IF '(' • EXP ')' STMT ELSE STMT
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 185
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 163
+
+   59 WHILESTMT: WHILE '(' • EXP ')' STMT
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 186
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 164
+
+   64 PUTINTSTMT: PUTINT '(' • EXP ')'
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 187
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 165
+
+   65 PUTCHSTMT: PUTCH '(' • EXP ')'
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 188
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 166
+
+   67 PUTARRAYSTMT: PUTARRAY '(' • EXP ',' EXP ')'
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 189
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 167
+
+   66 PUTFLOATSTMT: PUTFLOAT '(' • EXP ')'
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 190
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 168
+
+   68 PUTFARRAYSTMT: PUTFARRAY '(' • EXP ',' EXP ')'
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 191
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 169
+
+   69 PUTFSTMT: PUTF '(' • EXPLIST ')'
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+   98 EXPLIST: ε •  [',', ')']
+   99        | • EXP
+  100        | • EXPLIST ',' EXP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    $default  reduce using rule 98 (EXPLIST)
+
+    EXP           go to state 116
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    EXPLIST       go to state 192
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 170
+
+   38 STMT: ASSIGNSTMT ';' •
+
+    $default  reduce using rule 38 (STMT)
+
+
+State 171
+
+   40 STMT: EXPSTMT ';' •
+
+    $default  reduce using rule 40 (STMT)
+
+
+State 172
+
+   44 STMT: BREAKSTMT ';' •
+
+    $default  reduce using rule 44 (STMT)
+
+
+State 173
+
+   45 STMT: CONTINUESTMT ';' •
+
+    $default  reduce using rule 45 (STMT)
+
+
+State 174
+
+   46 STMT: RETURNSTMT ';' •
+
+    $default  reduce using rule 46 (STMT)
+
+
+State 175
+
+   47 STMT: PUTINTSTMT ';' •
+
+    $default  reduce using rule 47 (STMT)
+
+
+State 176
+
+   48 STMT: PUTCHSTMT ';' •
+
+    $default  reduce using rule 48 (STMT)
+
+
+State 177
+
+   50 STMT: PUTFLOATSTMT ';' •
+
+    $default  reduce using rule 50 (STMT)
+
+
+State 178
+
+   49 STMT: PUTARRAYSTMT ';' •
+
+    $default  reduce using rule 49 (STMT)
+
+
+State 179
+
+   51 STMT: PUTFARRAYSTMT ';' •
+
+    $default  reduce using rule 51 (STMT)
+
+
+State 180
+
+   52 STMT: PUTFSTMT ';' •
+
+    $default  reduce using rule 52 (STMT)
+
+
+State 181
+
+   53 STMT: STARTTIMESTMT ';' •
+
+    $default  reduce using rule 53 (STMT)
+
+
+State 182
+
+   54 STMT: STOPTIMESTMT ';' •
+
+    $default  reduce using rule 54 (STMT)
+
+
+State 183
+
+   55 ASSIGNSTMT: LVAL '=' • EXP
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 193
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 184
+
+  100 EXPLIST: EXPLIST ',' EXP •  [',', ')']
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+
+    $default  reduce using rule 100 (EXPLIST)
+
+
+State 185
+
+   57 IFSTMT: IF '(' EXP • ')' STMT
+   58       | IF '(' EXP • ')' STMT ELSE STMT
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+    ')'      shift, and go to state 194
+
+
+State 186
+
+   59 WHILESTMT: WHILE '(' EXP • ')' STMT
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+    ')'      shift, and go to state 195
+
+
+State 187
+
+   64 PUTINTSTMT: PUTINT '(' EXP • ')'
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+    ')'      shift, and go to state 196
+
+
+State 188
+
+   65 PUTCHSTMT: PUTCH '(' EXP • ')'
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+    ')'      shift, and go to state 197
+
+
+State 189
+
+   67 PUTARRAYSTMT: PUTARRAY '(' EXP • ',' EXP ')'
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+    ','      shift, and go to state 198
+
+
+State 190
+
+   66 PUTFLOATSTMT: PUTFLOAT '(' EXP • ')'
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+    ')'      shift, and go to state 199
+
+
+State 191
+
+   68 PUTFARRAYSTMT: PUTFARRAY '(' EXP • ',' EXP ')'
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+    ','      shift, and go to state 200
+
+
+State 192
+
+   69 PUTFSTMT: PUTF '(' EXPLIST • ')'
+  100 EXPLIST: EXPLIST • ',' EXP
+
+    ','  shift, and go to state 159
+    ')'  shift, and go to state 201
+
+
+State 193
+
+   55 ASSIGNSTMT: LVAL '=' EXP •  [';']
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+
+    $default  reduce using rule 55 (ASSIGNSTMT)
+
+
+State 194
+
+   33 BLOCK: • '{' BLOCKITEMLIST '}'
+   38 STMT: • ASSIGNSTMT ';'
+   39     | • ';'
+   40     | • EXPSTMT ';'
+   41     | • BLOCK
+   42     | • IFSTMT
+   43     | • WHILESTMT
+   44     | • BREAKSTMT ';'
+   45     | • CONTINUESTMT ';'
+   46     | • RETURNSTMT ';'
+   47     | • PUTINTSTMT ';'
+   48     | • PUTCHSTMT ';'
+   49     | • PUTARRAYSTMT ';'
+   50     | • PUTFLOATSTMT ';'
+   51     | • PUTFARRAYSTMT ';'
+   52     | • PUTFSTMT ';'
+   53     | • STARTTIMESTMT ';'
+   54     | • STOPTIMESTMT ';'
+   55 ASSIGNSTMT: • LVAL '=' EXP
+   56 EXPSTMT: • EXP
+   57 IFSTMT: • IF '(' EXP ')' STMT
+   57       | IF '(' EXP ')' • STMT
+   58       | • IF '(' EXP ')' STMT ELSE STMT
+   58       | IF '(' EXP ')' • STMT ELSE STMT
+   59 WHILESTMT: • WHILE '(' EXP ')' STMT
+   60 BREAKSTMT: • BREAK
+   61 CONTINUESTMT: • CONTINUE
+   62 RETURNSTMT: • RETURN
+   63           | • RETURN EXP
+   64 PUTINTSTMT: • PUTINT '(' EXP ')'
+   65 PUTCHSTMT: • PUTCH '(' EXP ')'
+   66 PUTFLOATSTMT: • PUTFLOAT '(' EXP ')'
+   67 PUTARRAYSTMT: • PUTARRAY '(' EXP ',' EXP ')'
+   68 PUTFARRAYSTMT: • PUTFARRAY '(' EXP ',' EXP ')'
+   69 PUTFSTMT: • PUTF '(' EXPLIST ')'
+   70 STARTTIMESTMT: • STARTTIME
+   71 STOPTIMESTMT: • STOPTIME
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    RETURN       shift, and go to state 119
+    IF           shift, and go to state 120
+    WHILE        shift, and go to state 121
+    BREAK        shift, and go to state 122
+    CONTINUE     shift, and go to state 123
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    PUTINT       shift, and go to state 124
+    PUTCH        shift, and go to state 125
+    PUTARRAY     shift, and go to state 126
+    PUTFLOAT     shift, and go to state 127
+    PUTFARRAY    shift, and go to state 128
+    PUTF         shift, and go to state 129
+    STARTTIME    shift, and go to state 130
+    STOPTIME     shift, and go to state 131
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    ';'          shift, and go to state 132
+    '{'          shift, and go to state 78
+    '('          shift, and go to state 52
+
+    BLOCK          go to state 136
+    STMT           go to state 202
+    ASSIGNSTMT     go to state 139
+    EXPSTMT        go to state 140
+    IFSTMT         go to state 141
+    WHILESTMT      go to state 142
+    BREAKSTMT      go to state 143
+    CONTINUESTMT   go to state 144
+    RETURNSTMT     go to state 145
+    PUTINTSTMT     go to state 146
+    PUTCHSTMT      go to state 147
+    PUTFLOATSTMT   go to state 148
+    PUTARRAYSTMT   go to state 149
+    PUTFARRAYSTMT  go to state 150
+    PUTFSTMT       go to state 151
+    STARTTIMESTMT  go to state 152
+    STOPTIMESTMT   go to state 153
+    EXP            go to state 154
+    IDEXP          go to state 56
+    LVAL           go to state 155
+    PRIMARYEXP     go to state 58
+    NUMBER         go to state 59
+    UNARYEXP       go to state 60
+    CALLEXP        go to state 61
+    UNARYOP        go to state 62
+    MULEXP         go to state 63
+    ADDEXP         go to state 64
+    RELEXP         go to state 65
+    EQEXP          go to state 66
+    LANDEXP        go to state 67
+    LOREXP         go to state 68
+    GETINTEXP      go to state 69
+    GETCHEXP       go to state 70
+    GETFLOATEXP    go to state 71
+    GETARRAYEXP    go to state 72
+    GETFARRAYEXP   go to state 73
+
+
+State 195
+
+   33 BLOCK: • '{' BLOCKITEMLIST '}'
+   38 STMT: • ASSIGNSTMT ';'
+   39     | • ';'
+   40     | • EXPSTMT ';'
+   41     | • BLOCK
+   42     | • IFSTMT
+   43     | • WHILESTMT
+   44     | • BREAKSTMT ';'
+   45     | • CONTINUESTMT ';'
+   46     | • RETURNSTMT ';'
+   47     | • PUTINTSTMT ';'
+   48     | • PUTCHSTMT ';'
+   49     | • PUTARRAYSTMT ';'
+   50     | • PUTFLOATSTMT ';'
+   51     | • PUTFARRAYSTMT ';'
+   52     | • PUTFSTMT ';'
+   53     | • STARTTIMESTMT ';'
+   54     | • STOPTIMESTMT ';'
+   55 ASSIGNSTMT: • LVAL '=' EXP
+   56 EXPSTMT: • EXP
+   57 IFSTMT: • IF '(' EXP ')' STMT
+   58       | • IF '(' EXP ')' STMT ELSE STMT
+   59 WHILESTMT: • WHILE '(' EXP ')' STMT
+   59          | WHILE '(' EXP ')' • STMT
+   60 BREAKSTMT: • BREAK
+   61 CONTINUESTMT: • CONTINUE
+   62 RETURNSTMT: • RETURN
+   63           | • RETURN EXP
+   64 PUTINTSTMT: • PUTINT '(' EXP ')'
+   65 PUTCHSTMT: • PUTCH '(' EXP ')'
+   66 PUTFLOATSTMT: • PUTFLOAT '(' EXP ')'
+   67 PUTARRAYSTMT: • PUTARRAY '(' EXP ',' EXP ')'
+   68 PUTFARRAYSTMT: • PUTFARRAY '(' EXP ',' EXP ')'
+   69 PUTFSTMT: • PUTF '(' EXPLIST ')'
+   70 STARTTIMESTMT: • STARTTIME
+   71 STOPTIMESTMT: • STOPTIME
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    RETURN       shift, and go to state 119
+    IF           shift, and go to state 120
+    WHILE        shift, and go to state 121
+    BREAK        shift, and go to state 122
+    CONTINUE     shift, and go to state 123
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    PUTINT       shift, and go to state 124
+    PUTCH        shift, and go to state 125
+    PUTARRAY     shift, and go to state 126
+    PUTFLOAT     shift, and go to state 127
+    PUTFARRAY    shift, and go to state 128
+    PUTF         shift, and go to state 129
+    STARTTIME    shift, and go to state 130
+    STOPTIME     shift, and go to state 131
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    ';'          shift, and go to state 132
+    '{'          shift, and go to state 78
+    '('          shift, and go to state 52
+
+    BLOCK          go to state 136
+    STMT           go to state 203
+    ASSIGNSTMT     go to state 139
+    EXPSTMT        go to state 140
+    IFSTMT         go to state 141
+    WHILESTMT      go to state 142
+    BREAKSTMT      go to state 143
+    CONTINUESTMT   go to state 144
+    RETURNSTMT     go to state 145
+    PUTINTSTMT     go to state 146
+    PUTCHSTMT      go to state 147
+    PUTFLOATSTMT   go to state 148
+    PUTARRAYSTMT   go to state 149
+    PUTFARRAYSTMT  go to state 150
+    PUTFSTMT       go to state 151
+    STARTTIMESTMT  go to state 152
+    STOPTIMESTMT   go to state 153
+    EXP            go to state 154
+    IDEXP          go to state 56
+    LVAL           go to state 155
+    PRIMARYEXP     go to state 58
+    NUMBER         go to state 59
+    UNARYEXP       go to state 60
+    CALLEXP        go to state 61
+    UNARYOP        go to state 62
+    MULEXP         go to state 63
+    ADDEXP         go to state 64
+    RELEXP         go to state 65
+    EQEXP          go to state 66
+    LANDEXP        go to state 67
+    LOREXP         go to state 68
+    GETINTEXP      go to state 69
+    GETCHEXP       go to state 70
+    GETFLOATEXP    go to state 71
+    GETARRAYEXP    go to state 72
+    GETFARRAYEXP   go to state 73
+
+
+State 196
+
+   64 PUTINTSTMT: PUTINT '(' EXP ')' •
+
+    $default  reduce using rule 64 (PUTINTSTMT)
+
+
+State 197
+
+   65 PUTCHSTMT: PUTCH '(' EXP ')' •
+
+    $default  reduce using rule 65 (PUTCHSTMT)
+
+
+State 198
+
+   67 PUTARRAYSTMT: PUTARRAY '(' EXP ',' • EXP ')'
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 204
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 199
+
+   66 PUTFLOATSTMT: PUTFLOAT '(' EXP ')' •
+
+    $default  reduce using rule 66 (PUTFLOATSTMT)
+
+
+State 200
+
+   68 PUTFARRAYSTMT: PUTFARRAY '(' EXP ',' • EXP ')'
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    '('          shift, and go to state 52
+
+    EXP           go to state 205
+    IDEXP         go to state 56
+    LVAL          go to state 57
+    PRIMARYEXP    go to state 58
+    NUMBER        go to state 59
+    UNARYEXP      go to state 60
+    CALLEXP       go to state 61
+    UNARYOP       go to state 62
+    MULEXP        go to state 63
+    ADDEXP        go to state 64
+    RELEXP        go to state 65
+    EQEXP         go to state 66
+    LANDEXP       go to state 67
+    LOREXP        go to state 68
+    GETINTEXP     go to state 69
+    GETCHEXP      go to state 70
+    GETFLOATEXP   go to state 71
+    GETARRAYEXP   go to state 72
+    GETFARRAYEXP  go to state 73
+
+
+State 201
+
+   69 PUTFSTMT: PUTF '(' EXPLIST ')' •
+
+    $default  reduce using rule 69 (PUTFSTMT)
+
+
+State 202
+
+   57 IFSTMT: IF '(' EXP ')' STMT •  [RETURN, IF, WHILE, BREAK, CONTINUE, VOIDT, INTT, FLOATT, CONST, INTNUMBER, GETINT, GETCH, GETFLOAT, GETARRAY, GETFARRAY, PUTINT, PUTCH, PUTARRAY, PUTFLOAT, PUTFARRAY, PUTF, STARTTIME, STOPTIME, FLOATNUMBER, ADDOP, SUBOP, NOTOP, ID, ';', '{', '}', '(']
+   58       | IF '(' EXP ')' STMT • ELSE STMT
+
+    ELSE  shift, and go to state 206
+
+    $default  reduce using rule 57 (IFSTMT)
+
+    Conflict between rule 57 and token ELSE resolved as shift (prec2 < ELSE).
+
+
+State 203
+
+   59 WHILESTMT: WHILE '(' EXP ')' STMT •
+
+    $default  reduce using rule 59 (WHILESTMT)
+
+
+State 204
+
+   67 PUTARRAYSTMT: PUTARRAY '(' EXP ',' EXP • ')'
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+    ')'      shift, and go to state 207
+
+
+State 205
+
+   68 PUTFARRAYSTMT: PUTFARRAY '(' EXP ',' EXP • ')'
+  101 MULEXP: EXP • MULOP EXP
+  102 ADDEXP: EXP • ADDOP EXP
+  103       | EXP • SUBOP EXP
+  104 RELEXP: EXP • RELOP EXP
+  105 EQEXP: EXP • EQUALOP EXP
+  106 LANDEXP: EXP • LANDOP EXP
+  107 LOREXP: EXP • LOROP EXP
+
+    ADDOP    shift, and go to state 88
+    SUBOP    shift, and go to state 89
+    LANDOP   shift, and go to state 90
+    LOROP    shift, and go to state 91
+    MULOP    shift, and go to state 92
+    EQUALOP  shift, and go to state 93
+    RELOP    shift, and go to state 94
+    ')'      shift, and go to state 208
+
+
+State 206
+
+   33 BLOCK: • '{' BLOCKITEMLIST '}'
+   38 STMT: • ASSIGNSTMT ';'
+   39     | • ';'
+   40     | • EXPSTMT ';'
+   41     | • BLOCK
+   42     | • IFSTMT
+   43     | • WHILESTMT
+   44     | • BREAKSTMT ';'
+   45     | • CONTINUESTMT ';'
+   46     | • RETURNSTMT ';'
+   47     | • PUTINTSTMT ';'
+   48     | • PUTCHSTMT ';'
+   49     | • PUTARRAYSTMT ';'
+   50     | • PUTFLOATSTMT ';'
+   51     | • PUTFARRAYSTMT ';'
+   52     | • PUTFSTMT ';'
+   53     | • STARTTIMESTMT ';'
+   54     | • STOPTIMESTMT ';'
+   55 ASSIGNSTMT: • LVAL '=' EXP
+   56 EXPSTMT: • EXP
+   57 IFSTMT: • IF '(' EXP ')' STMT
+   58       | • IF '(' EXP ')' STMT ELSE STMT
+   58       | IF '(' EXP ')' STMT ELSE • STMT
+   59 WHILESTMT: • WHILE '(' EXP ')' STMT
+   60 BREAKSTMT: • BREAK
+   61 CONTINUESTMT: • CONTINUE
+   62 RETURNSTMT: • RETURN
+   63           | • RETURN EXP
+   64 PUTINTSTMT: • PUTINT '(' EXP ')'
+   65 PUTCHSTMT: • PUTCH '(' EXP ')'
+   66 PUTFLOATSTMT: • PUTFLOAT '(' EXP ')'
+   67 PUTARRAYSTMT: • PUTARRAY '(' EXP ',' EXP ')'
+   68 PUTFARRAYSTMT: • PUTFARRAY '(' EXP ',' EXP ')'
+   69 PUTFSTMT: • PUTF '(' EXPLIST ')'
+   70 STARTTIMESTMT: • STARTTIME
+   71 STOPTIMESTMT: • STOPTIME
+   72 EXP: • PRIMARYEXP
+   73    | • UNARYEXP
+   74    | • MULEXP
+   75    | • ADDEXP
+   76    | • RELEXP
+   77    | • EQEXP
+   78    | • LANDEXP
+   79    | • LOREXP
+   80    | • CALLEXP
+   81    | • GETINTEXP
+   82    | • GETCHEXP
+   83    | • GETFLOATEXP
+   84    | • GETARRAYEXP
+   85    | • GETFARRAYEXP
+   86 IDEXP: • ID
+   87 LVAL: • IDEXP ARRAYINDEXLIST
+   88 PRIMARYEXP: • '(' EXP ')'
+   89           | • LVAL
+   90           | • NUMBER
+   91 NUMBER: • INTNUMBER
+   92       | • FLOATNUMBER
+   93 UNARYEXP: • UNARYOP EXP
+   94 CALLEXP: • IDEXP '(' EXPLIST ')'
+   95 UNARYOP: • ADDOP
+   96        | • SUBOP
+   97        | • NOTOP
+  101 MULEXP: • EXP MULOP EXP
+  102 ADDEXP: • EXP ADDOP EXP
+  103       | • EXP SUBOP EXP
+  104 RELEXP: • EXP RELOP EXP
+  105 EQEXP: • EXP EQUALOP EXP
+  106 LANDEXP: • EXP LANDOP EXP
+  107 LOREXP: • EXP LOROP EXP
+  108 GETINTEXP: • GETINT '(' ')'
+  109 GETCHEXP: • GETCH '(' ')'
+  110 GETFLOATEXP: • GETFLOAT '(' ')'
+  111 GETARRAYEXP: • GETARRAY '(' EXP ')'
+  112 GETFARRAYEXP: • GETFARRAY '(' EXP ')'
+
+    RETURN       shift, and go to state 119
+    IF           shift, and go to state 120
+    WHILE        shift, and go to state 121
+    BREAK        shift, and go to state 122
+    CONTINUE     shift, and go to state 123
+    INTNUMBER    shift, and go to state 41
+    GETINT       shift, and go to state 42
+    GETCH        shift, and go to state 43
+    GETFLOAT     shift, and go to state 44
+    GETARRAY     shift, and go to state 45
+    GETFARRAY    shift, and go to state 46
+    PUTINT       shift, and go to state 124
+    PUTCH        shift, and go to state 125
+    PUTARRAY     shift, and go to state 126
+    PUTFLOAT     shift, and go to state 127
+    PUTFARRAY    shift, and go to state 128
+    PUTF         shift, and go to state 129
+    STARTTIME    shift, and go to state 130
+    STOPTIME     shift, and go to state 131
+    FLOATNUMBER  shift, and go to state 47
+    ADDOP        shift, and go to state 48
+    SUBOP        shift, and go to state 49
+    NOTOP        shift, and go to state 50
+    ID           shift, and go to state 15
+    ';'          shift, and go to state 132
+    '{'          shift, and go to state 78
+    '('          shift, and go to state 52
+
+    BLOCK          go to state 136
+    STMT           go to state 209
+    ASSIGNSTMT     go to state 139
+    EXPSTMT        go to state 140
+    IFSTMT         go to state 141
+    WHILESTMT      go to state 142
+    BREAKSTMT      go to state 143
+    CONTINUESTMT   go to state 144
+    RETURNSTMT     go to state 145
+    PUTINTSTMT     go to state 146
+    PUTCHSTMT      go to state 147
+    PUTFLOATSTMT   go to state 148
+    PUTARRAYSTMT   go to state 149
+    PUTFARRAYSTMT  go to state 150
+    PUTFSTMT       go to state 151
+    STARTTIMESTMT  go to state 152
+    STOPTIMESTMT   go to state 153
+    EXP            go to state 154
+    IDEXP          go to state 56
+    LVAL           go to state 155
+    PRIMARYEXP     go to state 58
+    NUMBER         go to state 59
+    UNARYEXP       go to state 60
+    CALLEXP        go to state 61
+    UNARYOP        go to state 62
+    MULEXP         go to state 63
+    ADDEXP         go to state 64
+    RELEXP         go to state 65
+    EQEXP          go to state 66
+    LANDEXP        go to state 67
+    LOREXP         go to state 68
+    GETINTEXP      go to state 69
+    GETCHEXP       go to state 70
+    GETFLOATEXP    go to state 71
+    GETARRAYEXP    go to state 72
+    GETFARRAYEXP   go to state 73
+
+
+State 207
+
+   67 PUTARRAYSTMT: PUTARRAY '(' EXP ',' EXP ')' •
+
+    $default  reduce using rule 67 (PUTARRAYSTMT)
+
+
+State 208
+
+   68 PUTFARRAYSTMT: PUTFARRAY '(' EXP ',' EXP ')' •
+
+    $default  reduce using rule 68 (PUTFARRAYSTMT)
+
+
+State 209
+
+   58 IFSTMT: IF '(' EXP ')' STMT ELSE STMT •
+
+    $default  reduce using rule 58 (IFSTMT)
